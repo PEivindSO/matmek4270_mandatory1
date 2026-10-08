@@ -270,11 +270,14 @@ class Wave2D_Neumann(Wave2D):
         return D / h**2
 
     def ue(self, mx: int, my: int) -> sp.Expr:
-        raise NotImplementedError("The ue method is not implemented yet.")
+        return (
+        sp.cos(mx * sp.pi * x)
+        * sp.cos(my * sp.pi * y)
+        * sp.cos(self.w * t)
+    )
 
     def apply_bcs(self, u: np.ndarray):
-        raise NotImplementedError("The apply_bcs method is not implemented yet.")
-
+        pass
 
 def test_convergence_wave2d():
     sol = Wave2D()
@@ -293,7 +296,7 @@ def test_exact_wave2d():
 
 if __name__ == "__main__":
     test_convergence_wave2d()
-    #test_convergence_wave2d_neumann()
+    test_convergence_wave2d_neumann()
 
     print("All tests passed!")
 
