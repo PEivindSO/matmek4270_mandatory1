@@ -329,9 +329,7 @@ if __name__ == "__main__":
 
 
 #Create animation
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, PillowWriter
+"""from matplotlib.animation import FuncAnimation, PillowWriter
 
 sol = Wave2D_Neumann()
 
@@ -388,4 +386,4 @@ ani.save(
     writer=PillowWriter(fps=12),
 )
 
-plt.close()
+plt.close()"""
