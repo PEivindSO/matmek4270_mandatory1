@@ -327,3 +327,65 @@ if __name__ == "__main__":
     test_exact_wave2d()
     print("All tests passed!")
 
+
+#Create animation
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
+
+sol = Wave2D_Neumann()
+
+data = sol(
+    N=30,
+    Nt=100,
+    cfl=1 / np.sqrt(2),
+    mx=2,
+    my=2,
+    store_data=3,
+)
+
+x, y = sol.create_mesh(30)
+
+fig, ax = plt.subplots()
+
+vmax = 1
+vmin = -1
+
+first_key = list(data.keys())[0]
+
+im = ax.pcolormesh(
+    x,
+    y,
+    data[first_key],
+    shading="auto",
+    vmin=vmin,
+    vmax=vmax,
+)
+
+fig.colorbar(im, ax=ax)
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.set_title("Neumann standing wave")
+
+keys = list(data.keys())
+
+def update(frame):
+    n = keys[frame]
+    im.set_array(data[n].ravel())
+    ax.set_title(f"Neumann standing wave, n = {n}")
+    return (im,)
+
+ani = FuncAnimation(
+    fig,
+    update,
+    frames=len(keys),
+    interval=80,
+    blit=False,
+)
+
+ani.save(
+    "report/neumannwave.gif",
+    writer=PillowWriter(fps=12),
+)
+
+plt.close()
